@@ -1,3 +1,4 @@
+import { OAuth2Client } from "google-auth-library";
 import { OTP } from "../../db/models/otp.model.js";
 import { User } from "../../db/models/user.model.js";
 import { sendEmail, generateToken, verifyToken, hash, compare, encypt, sendEmailEvent } from "../../utils/index.js";
@@ -78,9 +79,6 @@ export const login = async (req, res, next) => {
     payload: { id: existUser._id, email },
     options: { expiresIn: "7d" },
   });
-
-
-
   return res.status(200).json({
     success: true,
     message: "login successfully",
@@ -89,6 +87,49 @@ export const login = async (req, res, next) => {
 
   });
 };
+
+const verifyGoogleToken = async (idToken) => {
+  const client = new OAuth2Client()
+  const ticket =  await client.verifyIdToken({
+    idToken,
+    audience: process.env.CLIENT_ID
+  })
+
+  const payload = ticket.getPayload()
+
+  return payload
+}
+export const googleLogin = async(req, res, next) => {
+  const {idToken} = req.body
+  const {name, email, picture} = await verifyGoogleToken(idToken)
+
+  let userExist = await User.findOne({email})
+  if(!userExist){
+    userExist = await User.create({
+      userName: name,
+      profilePic: picture,
+      email,
+      provider: 'google'
+    })
+  }
+  const accessToken = generateToken({
+    payload: { id: userExist._id, email },
+    options: { expiresIn: "1h" },
+  });
+    const refreshToken = generateToken({
+    payload: { id: userExist._id, email },
+    options: { expiresIn: "7d" },
+  });
+  return res.status(200).json({
+    success: true,
+    message: "login successfully",
+    accessToken,
+    refreshToken
+
+  });
+
+
+}
 
 export const refreshToken = async(req, res, next) => {
   const {refreshToken} = req.body

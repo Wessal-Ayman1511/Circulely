@@ -9,6 +9,7 @@ const router = Router()
 router.post('/send-otp', isValid(authValidations.sendOTP), asyncHandler(authServices.sendOTP))
 router.post('/register', isValid(authValidations.register),asyncHandler(authServices.register))
 router.post('/login',isValid(authValidations.login) ,asyncHandler(authServices.login))
+router.post('/google-login', isValid(authValidations.googleLogin), asyncHandler(authServices.googleLogin))
 router.get('/activate-account/:token', asyncHandler(authServices.activateAccount))
 router.post('/refresh-token', isValid(authValidations.refreshToken), authServices.refreshToken)
 

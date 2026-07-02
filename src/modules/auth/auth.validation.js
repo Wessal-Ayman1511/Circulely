@@ -26,6 +26,10 @@ export const login = joi.object({
 
 }).required()
 
+export const googleLogin = joi.object({
+    idToken : joi.string().required()
+}).required()
+
 export const refreshToken = joi.object({
     refreshToken : joi.string().required()
 }).required()
