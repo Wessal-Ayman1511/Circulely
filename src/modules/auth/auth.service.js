@@ -61,9 +61,6 @@ export const login = async (req, res, next) => {
     return next(new Error("invalid credentials", { cause: 401 }));
   }
 
-  if (!existUser.isConfirmed) {
-    return next(new Error("verify your account first", { cause: 401 }));
-  }
 
   const matched = compare({data: password, hashedData: existUser.password})
   if (!matched) {

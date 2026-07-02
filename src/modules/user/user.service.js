@@ -27,3 +27,19 @@ export const updateProfile = async(req, res, next) => {
   existUser.save()
   return res.status(200).json({success: true, message: messages.user.updatedSuccessfully})
 }
+
+export const uploadProfilePic = async(req, res, next) => {
+
+  const updatedUser = await User.findByIdAndUpdate( 
+    req.authUser.id,
+    {
+      profilePic: req.file.path
+    },
+    {
+      new: true
+    }
+    
+  )
+  return res.status(200).json({success: true, user:updatedUser})
+
+}
