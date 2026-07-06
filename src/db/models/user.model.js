@@ -12,6 +12,7 @@ export const roles = {
   ADMIN: 'admin',
   USER: 'user'
 }
+export const defaultProfilePic = 'uploads/users/default.png'
 
 const userSchema = new Schema(
   {
@@ -54,7 +55,7 @@ const userSchema = new Schema(
     deletedAt: {
       type: Date
     },
-    profilePic: String,
+    profilePic: {type: String, default: defaultProfilePic},
     coverPic: [String],
     provider: {
       type: String,

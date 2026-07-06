@@ -1,6 +1,8 @@
-import { User } from "../../db/models/user.model.js";
+import path from "path";
+import { defaultProfilePic, User } from "../../db/models/user.model.js";
 import { decrypt } from "../../utils/index.js";
 import { messages } from "../../utils/messages.js/index.js";
+import fs from 'fs'
 export const getProfile = async (req, res, next) => {
     const user = req.authUser
     user.phone = decrypt({data: user.phone})
@@ -29,6 +31,13 @@ export const updateProfile = async(req, res, next) => {
 }
 
 export const uploadProfilePic = async(req, res, next) => {
+
+  const fullPath = path.resolve(req.authUser.profilePic)
+
+  if(fs.existsSync(fullPath) && req.authUser.profilePic != defaultProfilePic)
+  {
+    fs.unlinkSync(fullPath)
+  } 
 
   const updatedUser = await User.findByIdAndUpdate( 
     req.authUser.id,
