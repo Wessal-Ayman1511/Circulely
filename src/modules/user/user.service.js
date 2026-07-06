@@ -39,6 +39,7 @@ export const uploadProfilePic = async(req, res, next) => {
     fs.unlinkSync(fullPath)
   } 
 
+
   const updatedUser = await User.findByIdAndUpdate( 
     req.authUser.id,
     {
@@ -51,6 +52,21 @@ export const uploadProfilePic = async(req, res, next) => {
   )
   return res.status(200).json({success: true, user:updatedUser})
 
+}
+
+export const deleteProfilePic = async(req, res, next) => {
+  // delete image from the server
+  const fullPath = path.resolve(req.authUser.profilePic)
+  if(fs.existsSync(fullPath) && defaultProfilePic != req.authUser.profilePic){
+    fs.unlinkSync(fullPath)
+  }
+  // delete it from the db
+  const updatedUser = await User.findByIdAndUpdate(
+    req.authUser.id,
+    {profilePic: defaultProfilePic},
+    {new: true}
+  )
+  return res.status(200).json({success: true, message: "profile picture deleted successfully!", data:updatedUser})
 }
 
 export const uploadCoverPic = async(req, res, nex) => {
