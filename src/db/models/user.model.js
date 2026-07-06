@@ -55,6 +55,7 @@ const userSchema = new Schema(
       type: Date
     },
     profilePic: String,
+    coverPic: [String],
     provider: {
       type: String,
       enum: ['google', 'system'],

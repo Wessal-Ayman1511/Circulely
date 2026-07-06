@@ -9,5 +9,6 @@ router.get('/profile', isAuthenticated, userServices.getProfile)
 router.delete('/freeze', isAuthenticated, userServices.freezeAccount)
 router.put('/update', isAuthenticated, asyncHandler(userServices.updateProfile))
 router.post('/profile-pic', isAuthenticated, fileUpload().single('image'),asyncHandler(userServices.uploadProfilePic))
+router.post('/cover-pic', isAuthenticated, fileUpload().array('images', 5), asyncHandler(userServices.uploadCoverPic))
 
 export default router
