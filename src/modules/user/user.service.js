@@ -1,8 +1,9 @@
 import path from "path";
-import { defaultProfilePic, User } from "../../db/models/user.model.js";
+import { defalutSecureUrl, defaultProfilePic, defaultPublicId, User } from "../../db/models/user.model.js";
 import { decrypt } from "../../utils/index.js";
 import { messages } from "../../utils/messages.js/index.js";
 import fs from 'fs'
+import cloudinary from "../../utils/file-upload/cloud-config.js";
 export const getProfile = async (req, res, next) => {
     const user = req.authUser
     user.phone = decrypt({data: user.phone})
@@ -54,6 +55,28 @@ export const uploadProfilePic = async(req, res, next) => {
 
 }
 
+export const uploadProfilePicCloud = async(req, res, next) => {
+  // delete old image if found > upload to cloud > update database
+  const options = {}
+  if (req.authUser.profilePic.public_id == defaultPublicId)
+    options.folder = `circlely/users/${req.authUser._id}/profile_pic`
+  else 
+    options.public_id = req.authUser.profilePic.public_id
+
+  const {secure_url, public_id} = await cloudinary.uploader.upload(
+    req.file.path,
+    options
+  )
+
+  const user = await User.findByIdAndUpdate(
+    req.authUser._id,
+    {profilePic: {secure_url, public_id}},
+    {new: true}
+  )
+  return res.status(200).json({success: true, message: messages.user.updatedSuccessfully, data: user})
+
+
+}
 export const deleteProfilePic = async(req, res, next) => {
   // delete image from the server
   const fullPath = path.resolve(req.authUser.profilePic)

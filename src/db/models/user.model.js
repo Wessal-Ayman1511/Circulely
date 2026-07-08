@@ -13,6 +13,8 @@ export const roles = {
   USER: 'user'
 }
 export const defaultProfilePic = 'uploads/users/default.png'
+export const defalutSecureUrl = 'https://res.cloudinary.com/dheqckgyt/image/upload/v1756844329/download_wnzi7h.jpg'
+export const defaultPublicId =  'download_wnzi7h'
 
 const userSchema = new Schema(
   {
@@ -55,7 +57,11 @@ const userSchema = new Schema(
     deletedAt: {
       type: Date
     },
-    profilePic: {type: String, default: defaultProfilePic},
+    //profilePic: {type: String, default: defaultProfilePic},
+    profilePic: {
+      secure_url: {type: String, default: defalutSecureUrl},
+      public_id: {type: String, default: defaultPublicId}
+    },
     coverPic: [String],
     provider: {
       type: String,
