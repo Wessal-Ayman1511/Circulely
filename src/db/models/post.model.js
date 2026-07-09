@@ -12,9 +12,9 @@ const postSchema = new Schema({
         secure_url: {type: String},
         public_id: {type: String}
     }],
-    publisherId: {type: Types.ObjectId, ref: 'User', required: true},
+    publisher: {type: Types.ObjectId, ref: 'User', required: true},
     likes: [{type: Types.ObjectId, ref: 'User'}],
     isDeleted: {type: Boolean, default: false}
 }, {timestamps: true})
 
-export const Post = model('post', postSchema)
+export const Post = model('Post', postSchema)

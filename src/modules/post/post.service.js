@@ -37,3 +37,11 @@ export const likeOrUnlike = async(req, res, next) => {
     
 
 }
+
+export const getPosts = async(req, res, next) => {
+    const posts = await Post.find().populate([
+        {path: 'publisher', select: 'userName profilePic.secure_url'},
+        {path: 'likes', select: 'userName profilePic.secure_url'}
+    ])
+    return res.status(200).json({success: true, data: posts})
+}

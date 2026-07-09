@@ -80,7 +80,7 @@ userSchema.pre("save", function(next) {
   return next()
 })
 
-export const User = model("user", userSchema);
+export const User = model("User", userSchema);
 
 
 // Key takeaway from the example:

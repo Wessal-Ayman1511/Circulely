@@ -10,4 +10,4 @@ const otpSchema = new Schema({
 
 otpSchema.index({destroyedAt: 1}, {expireAfterSeconds: 30})
 
-export const OTP = model('otp', otpSchema)
+export const OTP = model('Otp', otpSchema)

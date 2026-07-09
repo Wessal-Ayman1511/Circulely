@@ -25,5 +25,10 @@ router.patch('/like-unlike/:id',
     asyncHandler(postServices.likeOrUnlike)
 )
 
+router.get('/',
+    isAuthenticated,
+    isAuthorized(roles.USER),
+    asyncHandler(postServices.getPosts)
+)
 
 export default router
