@@ -10,15 +10,27 @@ import { asyncHandler } from "../../utils/index.js";
 
 const router = Router({mergeParams: true})
 
+// create comment
+// related to post
+// child to parent
+// add comment ->  /post/postId/comment/
+
 router.post('/',
     isAuthenticated,
     isAuthorized(roles.USER),
     cloudUpload(fileValidation.images).single('attachment'),
     isValid(commentValidations.createComment),
     asyncHandler(commentServices.createComment)
-   
+ 
 )
 
+router.get('/',
+    isAuthenticated,
+    isAuthorized(roles.USER),
+    isValid(commentValidations.getComments),
+    asyncHandler(commentServices.getComments)
+
+)
 
 
 export default router;

@@ -12,3 +12,7 @@ export const createComment = joi.object({
     attachment: generalFields.attachment,
     text: joi.string()
 }).required().or('attachment', 'text')
+
+export const getComments = joi.object({
+    postId: generalFields.id,
+}).required()

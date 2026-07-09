@@ -31,3 +31,15 @@ export const createComment = async(req, res, next) => {
     return res.status(201).json({success: true, data: comment})
 
 }
+
+export const getComments = async(req, res, next) => {
+    const {postId} = req.params
+
+    const comments = await Comment.find({post: postId}).populate([
+        {path: 'user', select: 'profilePic.secure_url userName'},
+        {path: 'likes', select: 'profilePic.secure_url userName'},
+        {path: 'post', populate: [{path: 'publisher', select: 'userName profilePic.secure_url'}]},
+
+    ])
+    return res.status(200).json({success: true, data:comments})
+}
