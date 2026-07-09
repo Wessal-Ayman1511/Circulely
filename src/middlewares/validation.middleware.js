@@ -1,4 +1,21 @@
 import { Types } from "mongoose"
+import joi from 'joi'
+
+export const generalFields = {
+    id: joi.custom(isValidId).required(),
+    attachment: joi.array().items(
+            joi.object({
+            fieldname: joi.string().required(),
+            originalname: joi.string().required(),
+            encoding: joi.string().required(),
+            mimetype: joi.string().required(),
+            size: joi.number().required(),
+            destination: joi.string().required(),
+            filename: joi.string().required(),
+            path: joi.string().required()
+        })
+    )
+}
 
 export const isValid = (schema) => {
     return (req, res, next) => {
@@ -16,7 +33,7 @@ export const isValid = (schema) => {
     }
 }
 
-export const isValidId = (value, helpers) => {
+export function isValidId(value, helpers) {
     if(!Types.ObjectId.isValid(value))
         return helpers.message('Invalid ID')
     return true

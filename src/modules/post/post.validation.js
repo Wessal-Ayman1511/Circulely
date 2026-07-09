@@ -1,20 +1,9 @@
 import joi from 'joi'
-import { isValidId } from '../../middlewares/validation.middleware.js'
+import { generalFields, isValidId } from '../../middlewares/validation.middleware.js'
 
 export const createPost = joi.object({
     content: joi.string(),
-    attachment: joi.array().items(
-        joi.object({
-        fieldname: joi.string().required(),
-        originalname: joi.string().required(),
-        encoding: joi.string().required(),
-        mimetype: joi.string().required(),
-        size: joi.number().required(),
-        destination: joi.string().required(),
-        filename: joi.string().required(),
-        path: joi.string().required()
-    })
-)   
+    attachment: generalFields.attachment
 })
 .or('content', 'attachment')
 .required()

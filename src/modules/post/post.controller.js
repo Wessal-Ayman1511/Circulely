@@ -7,8 +7,12 @@ import { isValid } from "../../middlewares/validation.middleware.js";
 import * as postValidation from './post.validation.js'
 import * as postServices from './post.service.js'
 import { asyncHandler } from "../../utils/error/async-handler.js";
+import commentRouter from '../comment/comment.controller.js'
 
 const router = Router()
+
+
+router.use('/:postId/comment', commentRouter)
 
 router.post('/',
     isAuthenticated,
