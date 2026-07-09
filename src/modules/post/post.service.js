@@ -39,41 +39,43 @@ export const likeOrUnlike = async(req, res, next) => {
 }
 
 export const getPosts = async(req, res, next) => {
-    // const posts = await Post.find().populate([
-    //     {path: 'publisher', select: 'userName profilePic.secure_url'},
-    //     {path: 'likes', select: 'userName profilePic.secure_url'}
-    // ])
-    const posts = await Post.aggregate([
-        {
-            $lookup: {
-                from: 'users',
-                localField: 'publisher',
-                foreignField: '_id',
-                as: "publisher"
-            }
-        },
-        {
-            $unwind: '$publisher'
-        },
-        {
-            $lookup: {
-                from: 'users',
-                localField: "likes",
-                foreignField: "_id",
-                as: "likes"
-            }
-        },
-        {
-            $project: {
-                'attachment.secure_url': 1,
-                'content': 1,
-                'publisher.userName': 1,
-                'publisher.profilePic.secure_url': 1,
-                'likes.userName': 1,
-                'likes.profilePic.secure_url': 1
-            }
-
-        }
+    const posts = await Post.find().populate([
+        {path: 'publisher', select: 'userName profilePic.secure_url'},
+        {path: 'likes', select: 'userName profilePic.secure_url'},
+        {path: 'comments', populate: [{path: 'user', select: "userName"}]}
     ])
+
+    // const posts = await Post.aggregate([
+    //     {
+    //         $lookup: {
+    //             from: 'users',
+    //             localField: 'publisher',
+    //             foreignField: '_id',
+    //             as: "publisher"
+    //         }
+    //     },
+    //     {
+    //         $unwind: '$publisher'
+    //     },
+    //     {
+    //         $lookup: {
+    //             from: 'users',
+    //             localField: "likes",
+    //             foreignField: "_id",
+    //             as: "likes"
+    //         }
+    //     },
+    //     {
+    //         $project: {
+    //             'attachment.secure_url': 1,
+    //             'content': 1,
+    //             'publisher.userName': 1,
+    //             'publisher.profilePic.secure_url': 1,
+    //             'likes.userName': 1,
+    //             'likes.profilePic.secure_url': 1
+    //         }
+
+    //     }
+    // ])
     return res.status(200).json({success: true, data: posts})
 }
