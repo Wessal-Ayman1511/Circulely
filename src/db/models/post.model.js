@@ -1,11 +1,10 @@
-import { mode } from "crypto-js";
-import { Schema, Types } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 
 
 const postSchema = new Schema({
     content: {
         type: String,
-        required: () => {
+        required: function() {
             this.attachment.length == 0;
         }
     },
@@ -18,4 +17,4 @@ const postSchema = new Schema({
     isDeleted: {type: Boolean, default: false}
 }, {timestamps: true})
 
-export const Post = mode('post', postSchema)
+export const Post = model('post', postSchema)
