@@ -3,7 +3,7 @@ import { generalFields, isValidId } from '../../middlewares/validation.middlewar
 
 export const createPost = joi.object({
     content: joi.string(),
-    attachment: generalFields.attachment
+    attachment: joi.array().items(generalFields.attachment)
 })
 .or('content', 'attachment')
 .required()

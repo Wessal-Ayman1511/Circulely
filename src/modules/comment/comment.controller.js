@@ -8,7 +8,7 @@ import * as commentValidations from './comment.validation.js'
 import * as commentServices from './comment.service.js'
 import { asyncHandler } from "../../utils/index.js";
 
-const router = Router()
+const router = Router({mergeParams: true})
 
 router.post('/',
     isAuthenticated,

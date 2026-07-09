@@ -7,8 +7,9 @@ const commentSchema = new Schema({
     likes: [{type: Types.ObjectId, ref: 'User'}],
     text: {type: String, required: function() {return !this.attachment}},
     attachment: {
-        secure_url: {type: String, required: true}},
-        public_id: {type: String, required: true}
+        secure_url: {type: String},
+        public_id: {type: String}
+    }
 }, {timestamps: true})
 
 export const Comment = model('Comment', commentSchema)
