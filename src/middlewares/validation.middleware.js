@@ -2,7 +2,7 @@ import { Types } from "mongoose"
 import joi from 'joi'
 
 export const generalFields = {
-    id: joi.custom(isValidId).required(),
+    id: joi.custom(isValidId),
     attachment: joi.object({
                 fieldname: joi.string().required(),
                 originalname: joi.string().required(),

@@ -15,6 +15,11 @@ const router = Router({mergeParams: true})
 // child to parent
 // add comment ->  /post/postId/comment/
 
+/**
+ * @method post
+ * @param id if you want to add reply
+ */
+
 router.post('/',
     isAuthenticated,
     isAuthorized(roles.USER),
@@ -24,6 +29,11 @@ router.post('/',
  
 )
 
+/**
+ * @method get
+ * @param id if you want replies of specific comment 
+ */
+
 router.get('/',
     isAuthenticated,
     isAuthorized(roles.USER),
@@ -32,5 +42,11 @@ router.get('/',
 
 )
 
+router.delete('/:id',
+    isAuthenticated,
+    isAuthorized(roles.USER),
+    isValid(commentValidations.deleteComment),
+    asyncHandler(commentServices.deleteComment)
+)
 
 export default router;

@@ -9,5 +9,21 @@ export const createPost = joi.object({
 .required()
 
 export const likeOrUnlike = joi.object({
-    id: joi.custom(isValidId).required()
+    id: generalFields.id.required()
+}).required()
+
+export const getPost = joi.object({
+    id: generalFields.id.required()
+}).required()
+
+export const hardDeletePost = joi.object({
+    id: generalFields.id.required()
+}).required()
+
+export const archivePost = joi.object({
+    id: generalFields.id.required()
+}).required()
+
+export const restorePost = joi.object({
+    id: generalFields.id.required()
 }).required()

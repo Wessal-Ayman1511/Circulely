@@ -35,4 +35,40 @@ router.get('/',
     asyncHandler(postServices.getPosts)
 )
 
+
+router.get('/:id',
+    isAuthenticated,
+    isAuthorized(roles.USER),
+    isValid(postValidation.getPost),
+    asyncHandler(postServices.getPost)
+)
+
+
+router.delete('/:id',
+    isAuthenticated,
+    isAuthorized(roles.USER),
+    isValid(postValidation.hardDeletePost),
+    asyncHandler(postServices.hardDeletePost)
+)
+
+router.patch('/archive/:id', 
+    isAuthenticated,
+    isAuthorized(roles.USER),
+    isValid(postValidation.archivePost),
+    asyncHandler(postServices.archivePost)
+ 
+)
+router.patch('/restore/:id', 
+    isAuthenticated,
+    isAuthorized(roles.USER),
+    isValid(postValidation.restorePost),
+    asyncHandler(postServices.restorePost)
+ 
+)
+
+
+
+
+
+
 export default router
