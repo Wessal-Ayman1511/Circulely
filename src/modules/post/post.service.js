@@ -39,11 +39,22 @@ export const likeOrUnlike = async(req, res, next) => {
 }
 
 export const getPosts = async(req, res, next) => {
+    let {page, size} = req.query
+    if(!page) page = 1
+    if(!size) size = 10
+    const skip = (page - 1) * size
+
+    const totalPosts = await Post.find().countDocuments()
+    const totalPages = Math.ceil(totalPosts / size)
+    const currentPage = parseInt(page)
+
     const posts = await Post.find({isDeleted: false}).populate([
         {path: 'publisher', select: 'userName profilePic.secure_url'},
         {path: 'likes', select: 'userName profilePic.secure_url'},
         {path: 'comments', populate: [{path: 'user', select: "userName"}]}
-    ])
+    ]).limit(size).skip(skip)
+
+
 
     // const posts = await Post.aggregate([
     //     {
@@ -77,7 +88,7 @@ export const getPosts = async(req, res, next) => {
 
     //     }
     // ])
-    return res.status(200).json({success: true, data: posts})
+    return res.status(200).json({success: true, results:{data: posts, totalPages, totalPosts, currentPage}})
 }
 
 export const getPost = async(req, res, next) => {

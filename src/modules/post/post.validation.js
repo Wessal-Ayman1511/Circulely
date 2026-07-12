@@ -27,3 +27,8 @@ export const archivePost = joi.object({
 export const restorePost = joi.object({
     id: generalFields.id.required()
 }).required()
+
+export const getPosts = joi.object({
+    size: joi.number().min(1),
+    page: joi.number().min(1)
+}).required()

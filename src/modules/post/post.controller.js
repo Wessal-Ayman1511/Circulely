@@ -30,8 +30,7 @@ router.patch('/like-unlike/:id',
 )
 
 router.get('/',
-    isAuthenticated,
-    isAuthorized(roles.USER),
+    isValid(postValidation.getPosts),
     asyncHandler(postServices.getPosts)
 )
 
