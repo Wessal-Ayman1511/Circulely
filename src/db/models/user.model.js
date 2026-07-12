@@ -1,4 +1,4 @@
-import { model, Schema } from "mongoose";
+import { model, Schema, Types } from "mongoose";
 import { hash } from "../../utils/index.js";
 
 export const genders = {
@@ -10,7 +10,9 @@ export const genders = {
 
 export const roles = {
   ADMIN: 'admin',
-  USER: 'user'
+  USER: 'user',
+  SUPER_ADMIN: 'superAdmin',
+  OWNER: 'owner'
 }
 export const defaultProfilePic = 'uploads/users/default.png'
 export const defalutSecureUrl = 'https://res.cloudinary.com/dheqckgyt/image/upload/v1756844329/download_wnzi7h.jpg'
@@ -68,7 +70,8 @@ const userSchema = new Schema(
       enum: ['google', 'system'],
       default: 'system'
     
-    }
+    },
+    updatedBy: {type: Types.ObjectId, ref: 'User'}
   },
   { timestamps: true }
 );
