@@ -1,4 +1,4 @@
-import { GraphQLID, GraphQLList } from "graphql";
+import { GraphQLID, GraphQLList, GraphQLNonNull } from "graphql";
 import { postType } from "./post.type.js";
 import { Post } from "../../../db/models/post.model.js";
 import { getPostResponse, getPostsResponse } from "./post.response.js";

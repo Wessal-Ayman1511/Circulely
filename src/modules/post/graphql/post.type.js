@@ -1,4 +1,4 @@
-import { GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
+import { GraphQLBoolean, GraphQLInt, GraphQLList, GraphQLObjectType, GraphQLString } from "graphql";
 import { attachmentType } from "../../../utils/graphql/attachment.type.js";
 import { userType } from "../../user/graphql/user.type.js";
 import { User } from "../../../db/models/user.model.js";
@@ -26,6 +26,6 @@ export const postType = new GraphQLObjectType({
             return parent.likes.length
         }
     },
-    isDeleted: { type: GraphQLString },
+    isDeleted: { type: GraphQLBoolean },
   },
 });
