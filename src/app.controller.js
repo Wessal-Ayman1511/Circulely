@@ -7,6 +7,8 @@ import { globalError } from "./utils/error/global-error.js";
 import { notFound } from "./utils/error/not-found.js";
 import cors from 'cors'
 import {rateLimit} from 'express-rate-limit'
+import { createHandler } from "graphql-http/lib/use/express";
+import { schema } from "./app.schema.js";
 const bootStrap = async (app, express) => {
   app.use(rateLimit({
     windowMs: 3 * 60 * 1000, // number of requests in given period
@@ -16,7 +18,9 @@ const bootStrap = async (app, express) => {
     },
     legacyHeaders: false // disable the headers of rate limit
   }))
+
   
+  app.all('/graphql', createHandler({schema}))
   app.use(cors('*'))
   app.use(express.json());
   app.use("/uploads", express.static('uploads'))
