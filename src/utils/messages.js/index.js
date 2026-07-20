@@ -10,7 +10,8 @@ export const messages = {
     user: {...generateMessages('User'), incorrectPass: "user incorrect password"},
     otp: generateMessages('OTP'),
     post: generateMessages('Post'),
-    comment: generateMessages('Comment')
+    comment: generateMessages('Comment'),
+    chat: generateMessages("Chat")
 
     
 }
