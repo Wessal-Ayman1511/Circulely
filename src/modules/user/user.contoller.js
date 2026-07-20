@@ -18,4 +18,5 @@ router.delete('/profile-pic', isAuthenticated, asyncHandler(userServices.deleteP
 router.post('/cover-pic', isAuthenticated, fileUpload(fileValidation.images, 'uploads/users').array('images', 5), asyncHandler(userServices.uploadCoverPic))
 router.delete('/profile-pic', isAuthenticated, asyncHandler(userServices.deleteProfilePic))
 router.post('/send-request/:friendId', isAuthenticated, isValid(userValidations.sendRequest), asyncHandler(userServices.sendRequest))
+router.put('/accept-request/:friendId', isAuthenticated, isValid(userValidations.acceptRequest), asyncHandler(userServices.acceptRequest))
 export default router
