@@ -1,9 +1,12 @@
 import { Router } from "express";
 import * as userServices from './user.service.js'
+import * as userValidations from './user.validation.js'
 import { isAuthenticated } from "../../middlewares/auth.middleware.js";
 import { asyncHandler } from "../../utils/index.js";
 import { fileUpload, fileValidation } from "../../utils/file-upload/multer.js";
 import { cloudUpload } from "../../utils/file-upload/multer_cloud.js";
+import { isAuthorized } from "../../middlewares/authorization.js";
+import { isValid } from "../../middlewares/validation.middleware.js";
 const router = Router()
 
 router.get('/profile', isAuthenticated, userServices.getProfile)
@@ -14,4 +17,5 @@ router.post('/profile-pic', isAuthenticated, cloudUpload(fileValidation.images).
 router.delete('/profile-pic', isAuthenticated, asyncHandler(userServices.deleteProfilePic))
 router.post('/cover-pic', isAuthenticated, fileUpload(fileValidation.images, 'uploads/users').array('images', 5), asyncHandler(userServices.uploadCoverPic))
 router.delete('/profile-pic', isAuthenticated, asyncHandler(userServices.deleteProfilePic))
+router.post('/send-request/:friendId', isAuthenticated, isValid(userValidations.sendRequest), asyncHandler(userServices.sendRequest))
 export default router

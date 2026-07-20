@@ -71,7 +71,10 @@ const userSchema = new Schema(
       default: 'system'
     
     },
-    updatedBy: {type: Types.ObjectId, ref: 'User'}
+    updatedBy: {type: Types.ObjectId, ref: 'User'},
+    friendRequsts: [{type: Types.ObjectId, ref: 'User'}],
+    friends: [{type: Types.ObjectId, ref: 'User'}]
+
   },
   { timestamps: true }
 );

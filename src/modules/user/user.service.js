@@ -101,3 +101,24 @@ export const uploadCoverPic = async(req, res, nex) => {
   )
   return res.status(200).json({success: true, message: "Cover Pic added successfully"})
 }
+
+export const sendRequest = async(req, res, next) => {
+  const {friendId} = req.params
+  // if friend not found, if i send a request to this friend already, if friend already in friends, if friend send a request to you
+  const user = req.authUser
+  const userFriend = await User.findOne({_id:friendId, isDeleted: false})
+
+  // friend not found
+  if(!userFriend) return next(new Error(messages.user.notFound, {cause: 404}))
+  // if i send a request to this friend already
+  if (userFriend.friendRequsts.map(String).includes(user.id)) return next(new Error('you already send a req to him', {cause: 401}))
+  // if friend already in friends
+  if(user.friends.map(String).includes(userFriend.id)) return next(new Error('already friends', {cause: 401}))
+  // if friend send a request to me
+  if(user.friendRequsts.map(String).includes(userFriend.id)) return next(new Error('this friend already in ur requests accept him', {cause: 401}))
+  
+    userFriend.friendRequsts.push(user._id)
+    await userFriend.save()
+    return res.status(200).json({success: true, message: "request sent successfully!"})
+
+}
