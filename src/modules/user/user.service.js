@@ -9,6 +9,7 @@ import { decrypt } from "../../utils/index.js";
 import { messages } from "../../utils/messages.js/index.js";
 import fs from "fs";
 import cloudinary from "../../utils/file-upload/cloud-config.js";
+
 export const getProfile = async (req, res, next) => {
   const user = req.authUser;
   user.phone = decrypt({ data: user.phone });
