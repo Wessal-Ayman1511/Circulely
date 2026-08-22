@@ -9,7 +9,7 @@ import { isAuthorized } from "../../middlewares/authorization.js";
 import { isValid } from "../../middlewares/validation.middleware.js";
 const router = Router()
 
-router.get('/profile', isAuthenticated, userServices.getProfile)
+router.get('/profile', isAuthenticated, asyncHandler(userServices.getProfile))
 router.delete('/freeze', isAuthenticated, userServices.freezeAccount)
 router.put('/update', isAuthenticated, asyncHandler(userServices.updateProfile))
 //router.post('/profile-pic', isAuthenticated, fileUpload(fileValidation.images, 'uploads/users').single('image'),asyncHandler(userServices.uploadProfilePic))

@@ -1,8 +1,9 @@
-import { User } from "../db/models/user.model.js";
-import jwt from "jsonwebtoken";
 
-export const isAuthenticated = async (req, res, next) => {
-  const { authorization } = req.headers;
+import jwt from "jsonwebtoken";
+import { User } from "../../db/models/user.model.js";
+
+export const authSocket = async (socket,  next) => {
+  const { authorization } = socket.handshake.auth;
   if (!authorization) {
     next(new Error("token is required", { cause: 404 }));
   }
@@ -29,6 +30,7 @@ export const isAuthenticated = async (req, res, next) => {
 
   if (userExist.deletedAt && userExist.deletedAt.getTime() > result.iat * 1000)
     return next(new Error("destroyed token", { cause: 400 }));
-  req.authUser = userExist;
+  socket.authUser = userExist;
+  socket.id = userExist.id
   next();
 };

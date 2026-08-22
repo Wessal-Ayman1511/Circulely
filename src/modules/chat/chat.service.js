@@ -34,7 +34,10 @@ export const getChat = async (req, res, next) => {
 
   const chat = await Chat.findOne({
     users: { $all: [req.authUser._id, friendId] },
-  });
+  }).populate([
+    {path: 'users'},
+    {path: 'messages.sender'}
+  ]);
   if(!chat) return next(new Error(messages.chat.notFound, {cause: 404}))
   return res.status(200).json({success: true, data: {chat}})
 };

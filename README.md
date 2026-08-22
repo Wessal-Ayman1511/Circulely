@@ -1,200 +1,232 @@
-# Saraha App - Anonymous Messaging Platform
+# Circulely
 
-A secure, full-stack anonymous messaging application built with Node.js, Express, and MongoDB. Users can communicate anonymously while maintaining security through proper authentication and data encryption.
+**Circulely** is a backend social networking application built with **Node.js, Express.js, and MongoDB**. The platform provides user authentication, profile management, posts, interactions, and secure communication between users through a modular RESTful API.
 
-## 🚀 Features
+## Features
 
-- **User Authentication**: Secure JWT-based authentication system
-- **Email Verification**: Account activation through email verification
-- **Data Encryption**: Personal information encrypted using AES encryption
-- **Role-Based Access**: Admin and User role management
-- **Account Management**: Account freeze/unfreeze functionality
-- **Secure Messaging**: Anonymous communication platform
-- **Input Validation**: Comprehensive validation using Joi schemas
-- **Error Handling**: Global error handling and logging
+### Authentication & Authorization
 
-## 🛠️ Tech Stack
+* User registration and login
+* JWT-based authentication
+* Access token validation through authentication middleware
+* Password hashing and secure credential handling
+* Email verification
+* Protected routes and authorization
+* Role-based access control
+* Account activation and management
 
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB with Mongoose ODM
-- **Authentication**: JWT (JSON Web Tokens), bcrypt
-- **Encryption**: CryptoJS for data encryption/decryption
-- **Email**: Nodemailer for email services
-- **Validation**: Joi for input validation
-- **Deployment**: EvenNode
+### User Management
 
-## 📁 Project Structure
+* Create and manage user profiles
+* Update user information
+* Retrieve user profiles
+* Manage account-related operations
+* Secure password update functionality
 
-```
+### Posts & Social Interactions
+
+* Create and manage posts
+* Retrieve posts and user content
+* Interact with other users' content
+* Support for user-generated content and social interactions
+* File/image upload functionality
+
+### Security
+
+* Password hashing using bcrypt
+* JWT authentication
+* Input validation
+* Centralized error handling
+* Protected API endpoints
+* Secure handling of uploaded files
+* Environment-based configuration for sensitive credentials
+
+### Email Services
+
+* Email verification
+* Account activation
+* Automated emails using Nodemailer
+
+### File Uploads
+
+* Multipart/form-data handling with Multer
+* Image/file upload processing
+* Cloud-based media storage using Cloudinary
+
+## Tech Stack
+
+### Backend
+
+* **Node.js**
+* **Express.js**
+* **JavaScript**
+
+### Database
+
+* **MongoDB**
+* **Mongoose**
+
+### Authentication & Security
+
+* **JSON Web Tokens (JWT)**
+* **bcrypt**
+* **Input validation**
+
+### Services & Libraries
+
+* **Nodemailer** – Email delivery
+* **Multer** – File uploads
+* **Cloudinary** – Media storage
+
+### Development Tools
+
+* **Git & GitHub**
+* **Postman** – API testing
+* **dotenv** – Environment configuration
+
+## Architecture
+
+The project follows a modular backend structure that separates the application's main responsibilities:
+
+```text
 src/
+├── common/
 ├── modules/
-│   ├── auth/          # Authentication module
-│   ├── user/          # User management module
-│   └── message/       # Messaging module
-├── middlewares/        # Custom middleware functions
-├── db/                # Database models and connection
-├── utils/             # Utility functions and helpers
-└── app.controller.js  # Main application setup
+│   ├── auth/
+│   ├── user/
+│   ├── post/
+│   └── ...
+├── middleware/
+├── database/
+└── app.js
 ```
 
-## 🚀 Getting Started
+The application uses a layered approach to separate:
 
-### Prerequisites
+* Routes
+* Controllers
+* Services
+* Data models
+* Authentication and authorization
+* Validation
+* Error handling
 
-- Node.js (v22.17.1 or higher)
-- MongoDB database
-- Email service credentials (Gmail recommended)
+This makes the application easier to maintain, test, and extend.
 
-### Installation
+## Authentication Flow
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd saraha-app
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Environment Setup**
-   Create a `.env` file in the root directory:
-   ```env
-   # Database
-   MONGODB_URI=your_mongodb_connection_string
-   
-   # JWT
-   JWT_KEY=your_jwt_secret_key
-   
-   # Email (Gmail)
-   EMAIL=your_email@gmail.com
-   PASSWORD=your_app_password
-   
-   # Encryption
-   CRYPTO_KEY=your_encryption_key
-   ```
-
-4. **Start the application**
-   ```bash
-   # Development mode with auto-reload
-   npm run start:dev
-   
-   # Production mode
-   npm start
-   ```
-
-## 📡 API Endpoints
-
-### Authentication Routes
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `POST` | `/auth/register` | User registration |
-| `POST` | `/auth/login` | User login |
-| `GET` | `/auth/activate-account/:token` | Activate account |
-
-### User Routes
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/user/profile` | Get user profile |
-| `DELETE` | `/user/freeze` | Freeze user account |
-
-### Message Routes
-
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| Various | `/message/*` | Message-related operations |
-
-## 🔐 Authentication
-
-The application uses JWT tokens for authentication. Include the token in the Authorization header:
-
-```
-Authorization: access <your_jwt_token>
+```text
+Client
+   │
+   ▼
+Login / Register
+   │
+   ▼
+Authentication Service
+   │
+   ├── Validate credentials
+   ├── Hash / verify password
+   └── Generate JWT
+   │
+   ▼
+Access Token
+   │
+   ▼
+Protected API Endpoint
+   │
+   ▼
+Authentication Middleware
+   │
+   ▼
+Controller → Service → Database
 ```
 
-## 🔒 Security Features
+## Environment Variables
 
-- **Password Hashing**: Bcrypt for secure password storage
-- **Data Encryption**: AES encryption for sensitive personal data
-- **Token Management**: JWT tokens with configurable expiration
-- **Input Validation**: Comprehensive validation at multiple layers
-- **Error Handling**: Secure error messages without information leakage
+Create a `.env` file in the root directory:
 
-## 📧 Email Verification
+```env
+PORT=3000
 
-Upon registration, users receive an email with an activation link. The link contains a JWT token that expires in 1 hour.
+MONGO_URI=your_mongodb_connection_string
 
-## 🗄️ Database Models
+JWT_SECRET=your_jwt_secret
 
-### User Model
-- `userName`: Unique username
-- `email`: Unique email address
-- `password`: Hashed password
-- `phone`: Encrypted phone number
-- `gender`: User gender
-- `role`: User role (admin/user)
-- `isConfirmed`: Email verification status
-- `isDeleted`: Account deletion status
-- `deletedAt`: Deletion timestamp
+EMAIL_HOST=your_email_host
+EMAIL_PORT=your_email_port
+EMAIL_USER=your_email_username
+EMAIL_PASSWORD=your_email_password
 
-### Message Model
-- Message-related fields for anonymous communication
-
-## 🚀 Deployment
-
-The application is deployed on **EvenNode** and accessible at:
-```
-https://sara7a-app.eu-4.evennode.com
+CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
+CLOUDINARY_API_KEY=your_cloudinary_api_key
+CLOUDINARY_API_SECRET=your_cloudinary_api_secret
 ```
 
-### Deployment Steps
-1. Configure environment variables on EvenNode
-2. Set up MongoDB connection
-3. Configure email service credentials
-4. Deploy the application
+> Never commit your `.env` file or expose your credentials in the repository.
 
-## 🧪 Testing
+## Installation
+
+Clone the repository:
 
 ```bash
-npm test
+git clone https://github.com/Wessal-Ayman1511/Circulely.git
 ```
 
-## 📝 Environment Variables
+Navigate to the project:
 
-| Variable | Description | Required |
-|----------|-------------|----------|
-| `MONGODB_URI` | MongoDB connection string | Yes |
-| `JWT_KEY` | JWT secret key | Yes |
-| `EMAIL` | Email service username | Yes |
-| `PASSWORD` | Email service password | Yes |
-| `CRYPTO_KEY` | Encryption key | Yes |
+```bash
+cd Circulely
+```
 
-## 🤝 Contributing
+Install dependencies:
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+```bash
+npm install
+```
 
-## 📄 License
+Create and configure your `.env` file, then start the development server:
 
-This project is licensed under the ISC License.
+```bash
+npm run dev
+```
 
-## 👨‍💻 Author
+The API will be available at:
 
-[Your Name] - [Your Email]
+```text
+http://localhost:3000
+```
 
-## 🙏 Acknowledgments
+## API Testing
 
-- Express.js community
-- MongoDB documentation
-- JWT implementation guides
-- CryptoJS library
+The API can be tested using **Postman** or any REST API client.
 
----
+The main API functionality includes:
 
-**Note**: This is a production-ready application with comprehensive security features. Make sure to properly configure all environment variables before deployment.
+* Authentication
+* User management
+* Posts
+* Social interactions
+* File uploads
+* Account verification
+
+## Project Goals
+
+Circulely was built to practice and demonstrate real-world backend development concepts, including:
+
+* RESTful API design
+* Authentication and authorization
+* Database modeling with MongoDB and Mongoose
+* Secure password management
+* Email verification
+* File and image uploads
+* Cloud media storage
+* Input validation
+* Error handling
+* Modular backend architecture
+
+## Author
+
+**Wessal Ayman**
+
+Backend Developer
+GitHub: [Wessal-Ayman1511](https://github.com/Wessal-Ayman1511)

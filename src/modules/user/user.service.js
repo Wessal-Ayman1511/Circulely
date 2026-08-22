@@ -164,7 +164,7 @@ export const acceptRequest = async (req, res, next) => {
       { _id: friendId },
       {
         $addToSet: {
-          friends: friendId,
+          friends: req.authUser._id,
         },
       },
     ),

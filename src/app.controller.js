@@ -15,7 +15,7 @@ const bootStrap = async (app, express) => {
   app.use(
     rateLimit({
       windowMs: 3 * 60 * 1000, // number of requests in given period
-      limit: 5,
+      limit: 50,
       handler: (req, res, next, options) => {
         return next(new Error(options.message, { cause: options.statusCode }));
       },

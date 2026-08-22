@@ -2,6 +2,7 @@ import express from 'express'
 import bootStrap from './src/app.controller.js'
 import morgan from 'morgan'
 import chalk from 'chalk'
+import { initSocket } from './src/socke.io/index.js'
 
 
 const app = express()
@@ -10,6 +11,8 @@ bootStrap(app, express)
 app.use(morgan('short'))
 
 
-app.listen(port, ()=> {
+const server = app.listen(port, ()=> {
     console.log(chalk.blue("server is running on port"), port)
 })
+
+initSocket(server)
