@@ -1,232 +1,117 @@
 # Circulely
 
-**Circulely** is a backend social networking application built with **Node.js, Express.js, and MongoDB**. The platform provides user authentication, profile management, posts, interactions, and secure communication between users through a modular RESTful API.
+**Circulely** is a backend social networking platform built with **Node.js, Express.js, and MongoDB**. It provides a secure and structured RESTful API for user authentication, profile management, posts, social interactions, and media handling.
+
+The project focuses on applying real-world backend development practices, including modular architecture, authentication and authorization, database modeling, request validation, centralized error handling, email verification, and cloud-based file storage.
 
 ## Features
 
-### Authentication & Authorization
-
-* User registration and login
-* JWT-based authentication
-* Access token validation through authentication middleware
-* Password hashing and secure credential handling
-* Email verification
-* Protected routes and authorization
-* Role-based access control
-* Account activation and management
-
-### User Management
-
-* Create and manage user profiles
-* Update user information
-* Retrieve user profiles
-* Manage account-related operations
-* Secure password update functionality
-
-### Posts & Social Interactions
-
-* Create and manage posts
-* Retrieve posts and user content
-* Interact with other users' content
-* Support for user-generated content and social interactions
-* File/image upload functionality
-
-### Security
-
-* Password hashing using bcrypt
-* JWT authentication
-* Input validation
-* Centralized error handling
-* Protected API endpoints
-* Secure handling of uploaded files
-* Environment-based configuration for sensitive credentials
-
-### Email Services
-
-* Email verification
-* Account activation
-* Automated emails using Nodemailer
-
-### File Uploads
-
-* Multipart/form-data handling with Multer
-* Image/file upload processing
-* Cloud-based media storage using Cloudinary
+* **Authentication & Authorization** — Secure registration and login using JWT, protected routes, email verification, and role-based authorization.
+* **User Management** — Profile management and secure account operations.
+* **Posts & Social Interactions** — Create, retrieve, update, and manage user-generated content.
+* **Media Management** — Handle file uploads with Multer and store media using Cloudinary.
+* **Email Services** — Account verification and automated emails using Nodemailer.
+* **Validation & Error Handling** — Request validation and centralized error handling for consistent API responses.
+* **Security** — Password hashing with bcrypt, JWT authentication, and environment-based configuration for sensitive credentials.
 
 ## Tech Stack
 
-### Backend
-
-* **Node.js**
-* **Express.js**
-* **JavaScript**
-
-### Database
-
-* **MongoDB**
-* **Mongoose**
-
-### Authentication & Security
-
-* **JSON Web Tokens (JWT)**
-* **bcrypt**
-* **Input validation**
-
-### Services & Libraries
-
-* **Nodemailer** – Email delivery
-* **Multer** – File uploads
-* **Cloudinary** – Media storage
-
-### Development Tools
-
-* **Git & GitHub**
-* **Postman** – API testing
-* **dotenv** – Environment configuration
+**Backend:** Node.js, Express.js
+**Database:** MongoDB, Mongoose
+**Authentication:** JWT, bcrypt
+**File Storage:** Cloudinary, Multer
+**Email:** Nodemailer
+**Testing:** Postman
+**Version Control:** Git, GitHub
 
 ## Architecture
 
-The project follows a modular backend structure that separates the application's main responsibilities:
+The application follows a modular backend architecture that separates routing, controllers, business logic, and database operations.
 
 ```text
 src/
-├── common/
-├── modules/
-│   ├── auth/
-│   ├── user/
-│   ├── post/
+├── Modules/
+│   ├── Auth/
+│   ├── User/
+│   ├── Post/
 │   └── ...
-├── middleware/
-├── database/
+├── Middleware/
+├── DB/
+├── Utils/
 └── app.js
 ```
 
-The application uses a layered approach to separate:
+This structure promotes **separation of concerns, maintainability, and scalability**.
 
-* Routes
-* Controllers
-* Services
-* Data models
-* Authentication and authorization
-* Validation
-* Error handling
+## Getting Started
 
-This makes the application easier to maintain, test, and extend.
+### Prerequisites
 
-## Authentication Flow
+* Node.js
+* MongoDB
+* npm
 
-```text
-Client
-   │
-   ▼
-Login / Register
-   │
-   ▼
-Authentication Service
-   │
-   ├── Validate credentials
-   ├── Hash / verify password
-   └── Generate JWT
-   │
-   ▼
-Access Token
-   │
-   ▼
-Protected API Endpoint
-   │
-   ▼
-Authentication Middleware
-   │
-   ▼
-Controller → Service → Database
-```
-
-## Environment Variables
-
-Create a `.env` file in the root directory:
-
-```env
-PORT=3000
-
-MONGO_URI=your_mongodb_connection_string
-
-JWT_SECRET=your_jwt_secret
-
-EMAIL_HOST=your_email_host
-EMAIL_PORT=your_email_port
-EMAIL_USER=your_email_username
-EMAIL_PASSWORD=your_email_password
-
-CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
-CLOUDINARY_API_KEY=your_cloudinary_api_key
-CLOUDINARY_API_SECRET=your_cloudinary_api_secret
-```
-
-> Never commit your `.env` file or expose your credentials in the repository.
-
-## Installation
-
-Clone the repository:
+### Installation
 
 ```bash
 git clone https://github.com/Wessal-Ayman1511/Circulely.git
-```
-
-Navigate to the project:
-
-```bash
 cd Circulely
-```
-
-Install dependencies:
-
-```bash
 npm install
 ```
 
-Create and configure your `.env` file, then start the development server:
+Create a `.env` file and configure the required environment variables:
+
+```env
+PORT=3000
+MONGO_URI=your_mongodb_uri
+JWT_SECRET=your_jwt_secret
+
+CLOUDINARY_CLOUD_NAME=your_cloud_name
+CLOUDINARY_API_KEY=your_api_key
+CLOUDINARY_API_SECRET=your_api_secret
+
+EMAIL_HOST=your_email_host
+EMAIL_PORT=your_email_port
+EMAIL_USER=your_email
+EMAIL_PASSWORD=your_email_password
+```
+
+Start the development server:
 
 ```bash
 npm run dev
 ```
 
-The API will be available at:
+## API
 
-```text
-http://localhost:3000
-```
-
-## API Testing
-
-The API can be tested using **Postman** or any REST API client.
-
-The main API functionality includes:
+The application exposes RESTful endpoints for:
 
 * Authentication
-* User management
+* Users
 * Posts
-* Social interactions
-* File uploads
+* Media uploads
 * Account verification
 
-## Project Goals
+API endpoints can be tested using **Postman**.
 
-Circulely was built to practice and demonstrate real-world backend development concepts, including:
+## Security
 
-* RESTful API design
-* Authentication and authorization
-* Database modeling with MongoDB and Mongoose
-* Secure password management
-* Email verification
-* File and image uploads
-* Cloud media storage
-* Input validation
-* Error handling
-* Modular backend architecture
+Circulely implements several security practices:
+
+* JWT-based authentication
+* Password hashing with bcrypt
+* Protected routes
+* Role-based authorization
+* Request validation
+* Secure environment configuration
+* Centralized error handling
+
+## Project Purpose
+
+Circulely was developed to strengthen practical backend engineering skills and demonstrate the ability to design and implement a **secure, modular, and maintainable RESTful backend application** using the Node.js ecosystem.
 
 ## Author
 
 **Wessal Ayman**
 
-Backend Developer
-GitHub: [Wessal-Ayman1511](https://github.com/Wessal-Ayman1511)
+[GitHub](https://github.com/Wessal-Ayman1511)
